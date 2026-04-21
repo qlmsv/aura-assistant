@@ -8,12 +8,47 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from .models import (
     Application,
     ApplicationStatus,
+    BotState,
     Client,
     Direction,
     Message,
     MessageType,
     Package,
 )
+
+
+# ---------- Admin focus (active-client routing) ----------
+
+FOCUS_KEY = "admin_focus_client_id"
+
+
+async def get_focused_client_id(session: AsyncSession) -> Optional[int]:
+    row = await session.execute(select(BotState).where(BotState.key == FOCUS_KEY))
+    state = row.scalar_one_or_none()
+    if state is None or not state.value:
+        return None
+    try:
+        return int(state.value)
+    except ValueError:
+        return None
+
+
+async def set_focused_client_id(session: AsyncSession, client_id: int) -> None:
+    row = await session.execute(select(BotState).where(BotState.key == FOCUS_KEY))
+    state = row.scalar_one_or_none()
+    if state is None:
+        session.add(BotState(key=FOCUS_KEY, value=str(client_id)))
+    else:
+        state.value = str(client_id)
+    await session.flush()
+
+
+async def clear_focus(session: AsyncSession) -> None:
+    row = await session.execute(select(BotState).where(BotState.key == FOCUS_KEY))
+    state = row.scalar_one_or_none()
+    if state is not None:
+        state.value = None
+        await session.flush()
 
 
 # ---------- Clients ----------

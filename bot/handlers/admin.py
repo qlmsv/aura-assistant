@@ -1,21 +1,23 @@
 from __future__ import annotations
 
-import shlex
 from typing import Optional
 
 from aiogram import Bot, F, Router
 from aiogram.filters import Command
-from aiogram.types import Message
+from aiogram.types import CallbackQuery, Message
 
 from bot import texts
 from bot.config import get_settings
 from bot.database import get_session
 from bot.database.crud import (
+    clear_focus,
     find_message_by_admin_msg_id,
     get_client_by_id,
+    get_focused_client_id,
     get_history,
     list_active_clients,
     save_message,
+    set_focused_client_id,
 )
 from bot.database.models import Direction, MessageType
 
@@ -61,7 +63,7 @@ async def _send_to_client(
 
 
 async def _deliver_and_log(
-    bot: Bot, message: Message, client_id: int, telegram_id: int
+    bot: Bot, message: Message, client_id: int, telegram_id: int, client_label: str
 ) -> None:
     msg_type, file_id, content = _detect_outbound(message)
     await _send_to_client(
@@ -80,7 +82,7 @@ async def _deliver_and_log(
             content=content,
             file_id=file_id,
         )
-    await message.reply(f"✓ Доставлено клиенту <code>{client_id}</code>")
+    await message.reply(f"✓ → <b>{client_label}</b> (#{client_id})")
 
 
 # ---------- commands ----------
@@ -94,14 +96,20 @@ async def cmd_admin_help(message: Message) -> None:
 async def cmd_clients(message: Message) -> None:
     async with get_session() as session:
         clients = await list_active_clients(session)
+        focus_id = await get_focused_client_id(session)
     if not clients:
         await message.answer("Активных клиентов пока нет.")
         return
-    lines = [
-        f"<code>{c.id}</code> · {c.name or '—'} · {c.package.value} · tg <code>{c.telegram_id}</code>"
-        for c in clients
-    ]
-    await message.answer("<b>Активные клиенты</b>\n\n" + "\n".join(lines))
+    lines = []
+    for c in clients:
+        marker = "📌 " if c.id == focus_id else "    "
+        lines.append(
+            f"{marker}<code>{c.id}</code> · {c.name or '—'} · {c.package.value}"
+        )
+    await message.answer(
+        "<b>Активные клиенты</b>\n\n" + "\n".join(lines) +
+        "\n\n<i>Команда: /focus &lt;id&gt; чтобы выбрать активного.</i>"
+    )
 
 
 @router.message(Command("history"))
@@ -125,6 +133,55 @@ async def cmd_history(message: Message) -> None:
     await message.answer("<b>История</b>\n\n" + "\n".join(lines))
 
 
+@router.message(Command("focus"))
+async def cmd_focus(message: Message) -> None:
+    parts = (message.text or "").split(maxsplit=1)
+    async with get_session() as session:
+        if len(parts) < 2:
+            # Show current focus
+            focus_id = await get_focused_client_id(session)
+            if focus_id is None:
+                await message.answer(
+                    "📍 Активный клиент не выбран.\n"
+                    "Использование: <code>/focus &lt;client_id&gt;</code>\n"
+                    "Список клиентов: /clients"
+                )
+                return
+            client = await get_client_by_id(session, focus_id)
+            if client is None:
+                await message.answer("📍 Активный клиент не найден в базе.")
+                return
+            await message.answer(
+                f"📍 Активный: <b>{client.name or '—'}</b> (#{client.id})"
+            )
+            return
+
+        arg = parts[1].strip()
+        if not arg.isdigit():
+            await message.answer("Использование: <code>/focus &lt;client_id&gt;</code>")
+            return
+        client_id = int(arg)
+        client = await get_client_by_id(session, client_id)
+        if client is None:
+            await message.answer("Клиент не найден.")
+            return
+        await set_focused_client_id(session, client_id)
+        await message.answer(
+            f"📌 Активный клиент: <b>{client.name or '—'}</b> (#{client_id}).\n"
+            "Теперь ваш обычный текст/медиа уходит ему."
+        )
+
+
+@router.message(Command("unfocus"))
+async def cmd_unfocus(message: Message) -> None:
+    async with get_session() as session:
+        await clear_focus(session)
+    await message.answer(
+        "🔓 Фокус снят. Отвечайте через reply на сообщение клиента "
+        "или используйте /reply &lt;id&gt; &lt;текст&gt;."
+    )
+
+
 @router.message(Command("reply"))
 async def cmd_reply(message: Message, bot: Bot) -> None:
     raw = (message.text or "").split(maxsplit=2)
@@ -141,6 +198,7 @@ async def cmd_reply(message: Message, bot: Bot) -> None:
             await message.answer("Клиент не найден.")
             return
         telegram_id = client.telegram_id
+        label = client.name or "клиент"
 
     try:
         await bot.send_message(telegram_id, body)
@@ -156,7 +214,34 @@ async def cmd_reply(message: Message, bot: Bot) -> None:
             message_type=MessageType.text,
             content=body,
         )
-    await message.answer(f"✓ Доставлено клиенту <code>{client_id}</code>")
+    await message.answer(f"✓ → <b>{label}</b> (#{client_id})")
+
+
+# ---------- focus button ----------
+
+@router.callback_query(F.data.startswith("focus:"))
+async def cb_focus(call: CallbackQuery) -> None:
+    # Only admin chat should see this button; double-check anyway.
+    if call.message and call.message.chat.id != settings.admin_chat_id:
+        await call.answer()
+        return
+
+    try:
+        _, raw = (call.data or "").split(":", 1)
+        client_id = int(raw)
+    except (ValueError, IndexError):
+        await call.answer("Плохая кнопка", show_alert=True)
+        return
+
+    async with get_session() as session:
+        client = await get_client_by_id(session, client_id)
+        if client is None:
+            await call.answer("Клиент не найден", show_alert=True)
+            return
+        await set_focused_client_id(session, client_id)
+        label = client.name or "—"
+
+    await call.answer(f"📌 Активный: {label}")
 
 
 # ---------- reply-on-forwarded-message routing ----------
@@ -174,6 +259,7 @@ async def admin_reply(message: Message, bot: Bot) -> None:
         client_id: Optional[int] = msg_row.client_id if msg_row else None
         client = await get_client_by_id(session, client_id) if client_id else None
         telegram_id = client.telegram_id if client else None
+        label = client.name if client else "клиент"
 
     if not (client_id and telegram_id):
         await message.reply(
@@ -183,6 +269,41 @@ async def admin_reply(message: Message, bot: Bot) -> None:
         return
 
     try:
-        await _deliver_and_log(bot, message, client_id, telegram_id)
+        await _deliver_and_log(bot, message, client_id, telegram_id, label or "клиент")
+    except Exception as e:
+        await message.reply(f"❌ Ошибка доставки: {e}")
+
+
+# ---------- plain-text fall-through: send to focused client ----------
+
+@router.message()
+async def admin_plain(message: Message, bot: Bot) -> None:
+    """Any admin text/media that isn't a command and isn't a reply goes to
+    whichever client is currently 'focused'."""
+
+    # Aiogram routes commands through the @Command handlers above, so if we
+    # got here and the message starts with /, it's an unknown command.
+    if message.text and message.text.startswith("/"):
+        return
+
+    async with get_session() as session:
+        focus_id = await get_focused_client_id(session)
+        if focus_id is None:
+            await message.reply(
+                "📍 Нет активного клиента.\n"
+                "Нажмите «📌 Отвечать …» под сообщением клиента или "
+                "используйте /focus &lt;id&gt;."
+            )
+            return
+        client = await get_client_by_id(session, focus_id)
+
+    if client is None:
+        await message.reply("📍 Активный клиент не найден в базе. /unfocus и /focus заново.")
+        return
+
+    try:
+        await _deliver_and_log(
+            bot, message, client.id, client.telegram_id, client.name or "клиент"
+        )
     except Exception as e:
         await message.reply(f"❌ Ошибка доставки: {e}")

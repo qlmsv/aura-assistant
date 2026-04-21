@@ -96,6 +96,18 @@ class Message(Base):
     client: Mapped["Client"] = relationship(back_populates="messages")
 
 
+class BotState(Base):
+    """Singleton key/value store for admin focus and other runtime state."""
+
+    __tablename__ = "bot_state"
+
+    key: Mapped[str] = mapped_column(String(64), primary_key=True)
+    value: Mapped[Optional[str]] = mapped_column(Text)
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
+    )
+
+
 class Application(Base):
     __tablename__ = "applications"
 
