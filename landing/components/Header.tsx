@@ -1,0 +1,23 @@
+import Link from "next/link";
+import { TelegramButton } from "./TelegramButton";
+
+export function Header() {
+  return (
+    <header className="sticky top-0 z-50 border-b border-white/5 bg-bg/70 backdrop-blur">
+      <div className="container-x flex h-16 items-center justify-between">
+        <Link href="/" className="flex items-center gap-2">
+          <span className="grid h-8 w-8 place-items-center rounded-full bg-accent text-bg shadow-glow">
+            <span className="font-display text-sm font-bold">A</span>
+          </span>
+          <span className="font-display text-lg font-bold tracking-widest">АУРА</span>
+        </Link>
+        <nav className="hidden gap-8 text-sm text-muted md:flex">
+          <a href="#services" className="hover:text-ink">Услуги</a>
+          <a href="#pricing" className="hover:text-ink">Тарифы</a>
+          <a href="#how" className="hover:text-ink">Как это работает</a>
+        </nav>
+        <TelegramButton className="hidden md:inline-flex">Написать</TelegramButton>
+      </div>
+    </header>
+  );
+}
