@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { TelegramButton } from "./TelegramButton";
+import { BusinessOps } from "./BusinessOps";
 
 type Tier = {
   name: string;
@@ -70,9 +71,10 @@ export function Pricing() {
     <section id="pricing" className="container-x py-section">
       <div className="max-w-2xl">
         <span className="section-eyebrow">Тарифы</span>
-        <h2 className="section-title">Три формата сотрудничества</h2>
+        <h2 className="section-title">Четыре формата сотрудничества</h2>
         <p className="mt-4 text-muted">
-          Прозрачная месячная подписка без скрытых платежей. Переход между тарифами — в любой момент.
+          Три подписки на личного ассистента — и отдельный формат для бизнеса.
+          Переход между тарифами — в любой момент.
         </p>
       </div>
 
@@ -155,6 +157,8 @@ export function Pricing() {
           </motion.div>
         ))}
       </div>
+
+      <BusinessOps />
     </section>
   );
 }

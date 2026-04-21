@@ -6,7 +6,6 @@ import { Problem } from "@/components/Problem";
 import { Services } from "@/components/Services";
 import { ReplaceStack } from "@/components/ReplaceStack";
 import { DayTimeline } from "@/components/DayTimeline";
-import { BusinessOps } from "@/components/BusinessOps";
 import { Pricing } from "@/components/Pricing";
 import { HowItWorks } from "@/components/HowItWorks";
 import { FAQ } from "@/components/FAQ";
@@ -26,7 +25,6 @@ export default function HomePage() {
         <Services />
         <ReplaceStack />
         <DayTimeline />
-        <BusinessOps />
         <Pricing />
         <HowItWorks />
         <About />

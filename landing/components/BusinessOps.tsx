@@ -11,11 +11,11 @@ const stats = [
 
 export function BusinessOps() {
   return (
-    <section className="container-x py-section">
-      <div className="mb-12 flex items-center gap-4">
+    <div className="mt-16">
+      <div className="mb-10 flex items-center gap-4">
         <span className="h-px flex-1 bg-gradient-to-r from-transparent to-accent/40" />
         <span className="rounded-full border border-accent/40 bg-accent/10 px-4 py-1.5 text-[0.72rem] font-medium uppercase tracking-[0.22em] text-accent">
-          Отдельная услуга · 2-е направление
+          04 · Операционист для бизнеса
         </span>
         <span className="h-px flex-1 bg-gradient-to-l from-transparent to-accent/40" />
       </div>
@@ -55,9 +55,12 @@ export function BusinessOps() {
                 </span>
               </h2>
               <p className="mt-4 max-w-xl text-sm text-muted">
-                <span className="font-semibold text-ink/90">Это отдельная услуга</span> —
-                не входит в тарифы личного ассистента выше. Форматы
-                сотрудничества и стоимость — по запросу.
+                <span className="font-semibold text-ink/90">
+                  Отдельный формат сотрудничества
+                </span>{" "}
+                для основателей и бизнеса. Глубже, чем личный ассистент —
+                вместо ведения задач я выстраиваю саму систему. Форматы и
+                стоимость — по запросу.
               </p>
 
               <p className="mt-8 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
@@ -109,6 +112,6 @@ export function BusinessOps() {
           </div>
         </div>
       </motion.div>
-    </section>
+    </div>
   );
 }
