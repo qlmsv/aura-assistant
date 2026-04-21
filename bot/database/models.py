@@ -10,6 +10,11 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from .session import Base
 
 
+def _values(enum_cls):
+    """Tell SQLAlchemy to send the enum *value* to Postgres, not the Python name."""
+    return [e.value for e in enum_cls]
+
+
 class Package(str, enum.Enum):
     none = "none"
     start = "start"
@@ -45,7 +50,8 @@ class Client(Base):
     name: Mapped[Optional[str]] = mapped_column(String(255))
     company: Mapped[Optional[str]] = mapped_column(String(255))
     package: Mapped[Package] = mapped_column(
-        Enum(Package, name="package_enum"), default=Package.none
+        Enum(Package, name="package_enum", values_callable=_values),
+        default=Package.none,
     )
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
     created_at: Mapped[datetime] = mapped_column(
@@ -68,10 +74,12 @@ class Message(Base):
         ForeignKey("clients.id", ondelete="CASCADE"), index=True
     )
     direction: Mapped[Direction] = mapped_column(
-        Enum(Direction, name="direction_enum"), nullable=False
+        Enum(Direction, name="direction_enum", values_callable=_values),
+        nullable=False,
     )
     message_type: Mapped[MessageType] = mapped_column(
-        Enum(MessageType, name="message_type_enum"), nullable=False
+        Enum(MessageType, name="message_type_enum", values_callable=_values),
+        nullable=False,
     )
     content: Mapped[Optional[str]] = mapped_column(Text)
     file_id: Mapped[Optional[str]] = mapped_column(String(512))
@@ -100,7 +108,7 @@ class Application(Base):
     tasks: Mapped[Optional[str]] = mapped_column(Text)
     preferred_time: Mapped[Optional[str]] = mapped_column(String(255))
     status: Mapped[ApplicationStatus] = mapped_column(
-        Enum(ApplicationStatus, name="application_status_enum"),
+        Enum(ApplicationStatus, name="application_status_enum", values_callable=_values),
         default=ApplicationStatus.new,
     )
     created_at: Mapped[datetime] = mapped_column(
