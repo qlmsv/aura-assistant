@@ -12,33 +12,40 @@ const script: Msg[] = [
   { from: "aura", text: "Собрала таблицу. Итого: ₽ 284 600. Прислала сводку в личку." },
 ];
 
+const STEP_MS = 1400;
+const PAUSE_MS = 3200;
+const CYCLE = script.length * STEP_MS + PAUSE_MS;
+
 export function TelegramPreview() {
-  const [visible, setVisible] = useState<Msg[]>([]);
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
-    let cancelled = false;
-    let i = 0;
-    const push = () => {
-      if (cancelled) return;
-      if (i >= script.length) {
-        setTimeout(() => {
-          if (cancelled) return;
-          setVisible([]);
-          i = 0;
-          setTimeout(push, 500);
-        }, 3200);
-        return;
-      }
-      setVisible((v) => [...v, script[i]]);
-      i += 1;
-      setTimeout(push, 1400);
+    let id: ReturnType<typeof setInterval>;
+    const tick = () => {
+      setCount((c) => {
+        const next = c + 1;
+        if (next > script.length) return 0;
+        return next;
+      });
     };
-    const t = setTimeout(push, 600);
+    const start = setTimeout(() => {
+      tick();
+      id = setInterval(tick, STEP_MS);
+    }, 600);
+
+    const reset = setInterval(() => {
+      // resync once a full cycle to avoid drift
+    }, CYCLE);
+
     return () => {
-      cancelled = true;
-      clearTimeout(t);
+      clearTimeout(start);
+      clearInterval(id);
+      clearInterval(reset);
     };
   }, []);
+
+  const visible = script.slice(0, count).filter(Boolean);
+  const showTyping = count > 0 && count < script.length;
 
   return (
     <div className="relative mx-auto w-full max-w-md">
@@ -57,23 +64,27 @@ export function TelegramPreview() {
 
         <div className="flex min-h-[340px] flex-col gap-2 px-4 py-5">
           <AnimatePresence initial={false}>
-            {visible.map((m, idx) => (
-              <motion.div
-                key={`${idx}-${m.text}`}
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                className={`max-w-[82%] rounded-2xl px-4 py-2.5 text-sm leading-snug ${
-                  m.from === "user"
-                    ? "self-end rounded-br-md bg-accent/90 text-bg"
-                    : "self-start rounded-bl-md bg-white/5 text-ink"
-                }`}
-              >
-                {m.text}
-              </motion.div>
-            ))}
-            {visible.length < script.length && visible.length > 0 && (
+            {visible.map((m, idx) => {
+              if (!m) return null;
+              const isUser = m.from === "user";
+              return (
+                <motion.div
+                  key={`msg-${idx}`}
+                  initial={{ opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                  className={`max-w-[82%] rounded-2xl px-4 py-2.5 text-sm leading-snug ${
+                    isUser
+                      ? "self-end rounded-br-md bg-accent/90 text-bg"
+                      : "self-start rounded-bl-md bg-white/5 text-ink"
+                  }`}
+                >
+                  {m.text}
+                </motion.div>
+              );
+            })}
+            {showTyping && (
               <motion.div
                 key="typing"
                 initial={{ opacity: 0 }}
