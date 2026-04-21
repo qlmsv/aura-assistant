@@ -1,11 +1,10 @@
 """Vercel serverless entrypoint for the Telegram webhook.
 
-Vercel's @vercel/python runtime invokes ``handler(request)``-style functions or
-exposes a ``BaseHTTPRequestHandler`` named ``handler``. We use the latter for
-maximum compatibility.
-
-Telegram sends an Update as JSON in the request body; we feed it into the
-aiogram dispatcher and respond 200 OK.
+We deliberately keep a single event loop alive for the lifetime of the warm
+lambda container. Without this, every request would `asyncio.run(...)` a fresh
+loop, and the SQLAlchemy async engine + asyncpg connection (created on the
+first loop) would raise "Event loop is closed" / "attached to a different
+loop" on every subsequent request.
 """
 
 from __future__ import annotations
@@ -29,7 +28,6 @@ from aiogram.types import Update  # noqa: E402
 from bot.config import get_settings  # noqa: E402
 from bot.handlers import register_all  # noqa: E402
 
-
 _settings = get_settings()
 _bot = Bot(
     token=_settings.bot_token,
@@ -39,6 +37,18 @@ _dp = Dispatcher()
 register_all(_dp)
 
 
+_loop: asyncio.AbstractEventLoop | None = None
+
+
+def _get_loop() -> asyncio.AbstractEventLoop:
+    """Return the persistent event loop for this warm container."""
+    global _loop
+    if _loop is None or _loop.is_closed():
+        _loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(_loop)
+    return _loop
+
+
 async def _process(update_dict: dict) -> None:
     update = Update.model_validate(update_dict, context={"bot": _bot})
     await _dp.feed_update(_bot, update)
@@ -46,7 +56,6 @@ async def _process(update_dict: dict) -> None:
 
 class handler(BaseHTTPRequestHandler):  # noqa: N801 — Vercel expects this name
     def do_POST(self) -> None:  # noqa: N802
-        # Optional secret check — Telegram sends X-Telegram-Bot-Api-Secret-Token.
         if _settings.webhook_secret:
             sent = self.headers.get("X-Telegram-Bot-Api-Secret-Token", "")
             if sent != _settings.webhook_secret:
@@ -63,11 +72,12 @@ class handler(BaseHTTPRequestHandler):  # noqa: N801 — Vercel expects this nam
             self.end_headers()
             return
 
+        loop = _get_loop()
         try:
-            asyncio.run(_process(payload))
+            loop.run_until_complete(_process(payload))
         except Exception as e:
-            # We still 200 to Telegram so it doesn't retry storms — log instead.
-            print(f"[webhook] handler error: {e}", flush=True)
+            # Always 200 to Telegram so it doesn't retry-storm. Log for postmortem.
+            print(f"[webhook] handler error: {e!r}", flush=True)
 
         self.send_response(200)
         self.send_header("Content-Type", "application/json")
