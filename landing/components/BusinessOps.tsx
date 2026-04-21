@@ -12,6 +12,14 @@ const stats = [
 export function BusinessOps() {
   return (
     <section className="container-x py-section">
+      <div className="mb-12 flex items-center gap-4">
+        <span className="h-px flex-1 bg-gradient-to-r from-transparent to-accent/40" />
+        <span className="rounded-full border border-accent/40 bg-accent/10 px-4 py-1.5 text-[0.72rem] font-medium uppercase tracking-[0.22em] text-accent">
+          Отдельная услуга · 2-е направление
+        </span>
+        <span className="h-px flex-1 bg-gradient-to-l from-transparent to-accent/40" />
+      </div>
+
       <motion.div
         initial={{ opacity: 0, y: 28 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -35,7 +43,10 @@ export function BusinessOps() {
 
           <div className="relative grid gap-14 lg:grid-cols-[1.25fr_1fr] lg:items-center">
             <div>
-              <span className="section-eyebrow">Для бизнеса</span>
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-bg/60 px-3 py-1 text-[0.72rem] font-medium uppercase tracking-[0.22em] text-muted">
+                <span className="h-1.5 w-1.5 rounded-full bg-accent shadow-glow" />
+                Операционист для бизнеса
+              </div>
               <h2 className="section-title mt-4">
                 Превращаю хаос в
                 <br />
@@ -43,7 +54,13 @@ export function BusinessOps() {
                   масштабируемую систему.
                 </span>
               </h2>
-              <p className="mt-6 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
+              <p className="mt-4 max-w-xl text-sm text-muted">
+                <span className="font-semibold text-ink/90">Это отдельная услуга</span> —
+                не входит в тарифы личного ассистента выше. Форматы
+                сотрудничества и стоимость — по запросу.
+              </p>
+
+              <p className="mt-8 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
                 Проектирую операционную архитектуру, которая освобождает
                 основателя от микроменеджмента. Моя специализация — создание
                 структуры там, где её нет: от проектирования логики процессов
