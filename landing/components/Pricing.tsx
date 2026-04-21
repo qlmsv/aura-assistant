@@ -17,7 +17,7 @@ type Tier = {
 const tiers: Tier[] = [
   {
     name: "Старт",
-    price: "$300",
+    price: "30 000 ₽",
     hours: "10 часов / мес",
     subtitle: "Для точечных задач",
     bullets: [
@@ -32,7 +32,7 @@ const tiers: Tier[] = [
   },
   {
     name: "Бизнес",
-    price: "$400",
+    price: "50 000 ₽",
     hours: "25 часов / мес",
     subtitle: "Для тех, кто хочет освободить голову",
     bullets: [
@@ -49,7 +49,7 @@ const tiers: Tier[] = [
   },
   {
     name: "VIP",
-    price: "$800",
+    price: "80 000 ₽",
     hours: "Без лимита",
     subtitle: "Личный офис онлайн",
     bullets: [
@@ -108,7 +108,7 @@ export function Pricing() {
               <p className="mt-1 text-sm text-muted">{t.subtitle}</p>
 
               <div className="mt-6 flex items-baseline gap-2">
-                <span className="font-display text-5xl font-bold tracking-tight">
+                <span className="font-display text-4xl font-bold tracking-tight">
                   {t.price}
                 </span>
                 <span className="text-sm text-muted">/ мес</span>
