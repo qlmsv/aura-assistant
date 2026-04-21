@@ -5,7 +5,7 @@ type Props = {
 };
 
 export function TelegramButton({ variant = "primary", className = "", children }: Props) {
-  const username = process.env.NEXT_PUBLIC_TELEGRAM_USERNAME ?? "aura_assistant_bot";
+  const username = process.env.NEXT_PUBLIC_TELEGRAM_USERNAME ?? "aura_assistant_online_bot";
   const href = `https://t.me/${username}`;
   const cls = variant === "primary" ? "btn-primary" : "btn-ghost";
   return (
