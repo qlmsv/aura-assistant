@@ -47,6 +47,13 @@ async def cb_services(call: CallbackQuery) -> None:
     await call.answer()
 
 
+@router.callback_query(F.data == "what")
+async def cb_what(call: CallbackQuery) -> None:
+    if call.message:
+        await call.message.edit_text(texts.WHAT_I_DO, reply_markup=back_to_menu())
+    await call.answer()
+
+
 @router.callback_query(F.data.startswith("pick:"))
 async def cb_pick_package(call: CallbackQuery) -> None:
     _, key = (call.data or "").split(":", 1)

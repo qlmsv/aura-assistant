@@ -11,7 +11,11 @@
     },
     {
       "src": "api/webhook.py",
-      "use": "@vercel/python"
+      "use": "@vercel/python",
+      "config": {
+        "memory": 1024,
+        "maxDuration": 30
+      }
     }
   ],
   "routes": [
