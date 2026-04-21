@@ -11,7 +11,7 @@ Premium personal assistant service. Monorepo with landing page, Telegram bot wit
 - **Landing**: Next.js 14 (App Router) + Tailwind CSS, deployed to Vercel
 - **Bot**: Python + aiogram 3.x (webhook), deployed as Vercel serverless function
 - **Mini App**: React + Vite (scaffold), Telegram WebApp SDK
-- **DB**: PostgreSQL (Railway) via SQLAlchemy async + asyncpg, Alembic migrations
+- **DB**: Vercel Postgres (Neon) via SQLAlchemy async + asyncpg, Alembic migrations
 
 ## Project Structure
 ```
@@ -53,37 +53,46 @@ npm install
 npm run dev
 ```
 
-## Deploy
+## Deploy (всё на Vercel)
 
-### Step 1 — Database (Railway)
-1. Create a new Railway project → **Add Service → PostgreSQL**.
-2. Open the PostgreSQL service → **Variables** → copy `DATABASE_URL`.
-3. Replace the driver prefix with the async one:
+### Шаг 1 — Импорт репозитория
+1. https://vercel.com/new → **Import Git Repository** → выбери этот репо.
+2. Root directory: `.` (vercel.json уже настроен).
+3. Жми **Deploy** (упадёт без env — это ок, добавим на следующем шаге).
+
+### Шаг 2 — Vercel Postgres
+1. В проекте: **Storage → Create Database → Postgres** → создай базу.
+2. Vercel автоматически добавит переменные `POSTGRES_*` в проект.
+3. Зайди в **Settings → Environment Variables** и добавь `DATABASE_URL`,
+   взяв значение из `POSTGRES_URL_NON_POOLING` и заменив префикс:
    ```
-   postgresql://user:pass@host:port/db
+   postgres://user:pass@host/db?sslmode=require
    →
-   postgresql+asyncpg://user:pass@host:port/db
+   postgresql+asyncpg://user:pass@host/db
    ```
+   (asyncpg сам включит SSL — параметр `sslmode` ему не нужен; SSL прописан в коде через `connect_args`.)
 
-### Step 2 — Vercel (landing + bot webhook)
-1. Connect this repo to Vercel.
-2. Set environment variables in **Project → Settings → Environment Variables**:
-   - `BOT_TOKEN` — from @BotFather
-   - `ADMIN_CHAT_ID` — your numeric Telegram ID (use @userinfobot)
-   - `WEBHOOK_URL` — `https://<your-vercel-domain>` (no trailing slash)
-   - `WEBHOOK_SECRET` — long random string (32+ chars)
-   - `DATABASE_URL` — from Railway (with `+asyncpg`)
-   - `NEXT_PUBLIC_TELEGRAM_USERNAME` — bot username, no @
-3. Deploy.
+### Шаг 3 — Остальные env vars
+В **Settings → Environment Variables** добавь:
+- `BOT_TOKEN` — от @BotFather
+- `ADMIN_CHAT_ID` — твой Telegram ID (узнай через @userinfobot)
+- `WEBHOOK_URL` — `https://<твой-домен>.vercel.app` (без слеша на конце)
+- `WEBHOOK_SECRET` — длинная случайная строка (32+ символов)
+- `NEXT_PUBLIC_TELEGRAM_USERNAME` — username бота без `@`
 
-### Step 3 — Run migrations
-From your local machine, with `DATABASE_URL` set:
+После добавления нажми **Redeploy** в Deployments.
+
+### Шаг 4 — Миграции БД
+Локально, с тем же `DATABASE_URL`:
 ```bash
 cd bot
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+export DATABASE_URL='postgresql+asyncpg://...'  # из Vercel Postgres
 alembic upgrade head
 ```
 
-### Step 4 — Set Telegram webhook
+### Шаг 5 — Telegram webhook
 ```bash
 curl -X POST "https://api.telegram.org/bot<BOT_TOKEN>/setWebhook" \
      -d "url=<WEBHOOK_URL>/api/webhook" \
