@@ -6,7 +6,6 @@ from typing import AsyncIterator
 
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase
-from sqlalchemy.pool import NullPool
 
 from bot.config import get_settings
 
@@ -24,11 +23,8 @@ _ssl_ctx = ssl.create_default_context()
 _ssl_ctx.check_hostname = False
 _ssl_ctx.verify_mode = ssl.CERT_NONE
 
-# In serverless every invocation is short-lived. Persisting a pool across cold
-# starts wastes warm time and risks stale sockets at the pgbouncer in front of
-# Neon. NullPool opens one connection per request and lets the pooler do its job.
-# statement_cache_size=0 is required when going through pgbouncer in transaction
-# mode (the -pooler hostname).
+# Pgbouncer (the Neon -pooler endpoint) runs in transaction mode, so prepared
+# statement caching on the asyncpg side has to be disabled.
 _connect_args: dict = {}
 if _is_neon:
     _connect_args["ssl"] = _ssl_ctx
@@ -38,11 +34,18 @@ if _is_neon:
 _engine_kwargs: dict = {
     "echo": False,
     "connect_args": _connect_args,
+    "pool_pre_ping": True,
 }
+
 if _is_serverless:
-    _engine_kwargs["poolclass"] = NullPool
+    # Keep ONE warm connection per lambda instance. Vercel reuses warm
+    # containers across invocations — so a tiny pool that survives between
+    # requests saves the ~300–500 ms TLS handshake to Neon every time.
+    # max_overflow=0 caps us at one socket; pool_recycle drops stale ones.
+    _engine_kwargs["pool_size"] = 1
+    _engine_kwargs["max_overflow"] = 0
+    _engine_kwargs["pool_recycle"] = 300
 else:
-    _engine_kwargs["pool_pre_ping"] = True
     _engine_kwargs["pool_size"] = 5
     _engine_kwargs["max_overflow"] = 5
 
