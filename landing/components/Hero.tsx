@@ -57,19 +57,23 @@ export function Hero() {
 
           <motion.div
             variants={item}
-            className="mt-14 grid w-full max-w-xl grid-cols-3 gap-6 text-left"
+            className="mt-12 grid w-full max-w-xl grid-cols-1 gap-3 text-left sm:mt-14 sm:grid-cols-3 sm:gap-6"
           >
             {[
               { v: "≤ 30 мин", l: "Ответ в рабочие часы" },
               { v: "День 1", l: "Первая задача на старте" },
-              { v: "NDA", l: "Полная конфиденциальность" },
+              { v: "NDA", l: "Конфиденциальность" },
             ].map((s) => (
               <div
                 key={s.l}
-                className="rounded-xl border border-white/10 bg-bgSoft/40 p-4 backdrop-blur"
+                className="flex items-baseline gap-3 rounded-xl border border-white/10 bg-bgSoft/40 p-4 backdrop-blur sm:block"
               >
-                <div className="font-display text-xl font-semibold text-accent">{s.v}</div>
-                <div className="mt-1 text-xs leading-snug text-muted">{s.l}</div>
+                <div className="font-display text-xl font-semibold text-accent">
+                  {s.v}
+                </div>
+                <div className="text-xs leading-snug text-muted sm:mt-1">
+                  {s.l}
+                </div>
               </div>
             ))}
           </motion.div>
