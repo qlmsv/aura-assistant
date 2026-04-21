@@ -6,6 +6,15 @@
   html {
     scroll-behavior: smooth;
   }
+  html.lenis {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
   body {
     @apply bg-bg text-ink font-sans antialiased;
     background-image:
@@ -15,6 +24,16 @@
   }
   ::selection {
     @apply bg-accent text-bg;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 
@@ -32,9 +51,25 @@
     @apply rounded-2xl border border-white/10 bg-bgSoft/60 p-7 backdrop-blur transition hover:border-accent/40 hover:shadow-glowSoft;
   }
   .eyebrow {
-    @apply inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.18em] text-accent;
+    @apply inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-[0.72rem] font-medium uppercase tracking-[0.22em] text-accent;
   }
   .section-title {
-    @apply font-display text-3xl font-semibold tracking-tight sm:text-4xl;
+    @apply font-display text-display-lg font-semibold;
+  }
+  .section-eyebrow {
+    @apply mb-4 inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-[0.72rem] font-medium uppercase tracking-[0.22em] text-accent;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-ink via-accent to-ink bg-clip-text text-transparent;
+  }
+  .mask-fade-r {
+    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  }
+  .noise {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/></svg>");
   }
 }

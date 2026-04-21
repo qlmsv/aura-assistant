@@ -1,20 +1,39 @@
+"use client";
+
+import { motion } from "framer-motion";
 import { TelegramButton } from "./TelegramButton";
 
 export function CTA() {
   return (
-    <section className="container-x py-24">
-      <div className="relative overflow-hidden rounded-3xl border border-accent/30 bg-bgSoft/60 p-10 text-center sm:p-16">
+    <section className="container-x pb-section">
+      <motion.div
+        initial={{ opacity: 0, y: 28 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-10%" }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        className="relative overflow-hidden rounded-3xl border border-accent/30 bg-bgSoft/60 p-10 text-center sm:p-16"
+      >
         <div className="absolute inset-0 -z-10 bg-radial-glow" />
-        <h2 className="font-display text-3xl font-bold sm:text-5xl">
-          Готовы вернуть себе время?
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -bottom-40 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-accent/30 blur-3xl"
+        />
+
+        <span className="section-eyebrow mx-auto">Начнём</span>
+        <h2 className="mt-5 font-display text-display-lg font-semibold tracking-tight sm:text-display-xl">
+          Верните себе <span className="text-gradient">рабочий день</span>
         </h2>
-        <p className="mx-auto mt-5 max-w-xl text-muted">
-          Один Telegram-чат вместо десяти приложений. Начните с короткой заявки — отвечу в течение часа.
+        <p className="mx-auto mt-5 max-w-xl text-lg text-muted">
+          Первый созвон — 20 минут. По итогу вы получите список задач, которые можно
+          снять с себя уже на этой неделе.
         </p>
         <div className="mt-9 flex justify-center">
-          <TelegramButton>Написать в Telegram</TelegramButton>
+          <TelegramButton>Записаться на знакомство</TelegramButton>
         </div>
-      </div>
+        <p className="mt-5 text-xs uppercase tracking-[0.22em] text-muted">
+          Бесплатно · Без обязательств · NDA по запросу
+        </p>
+      </motion.div>
     </section>
   );
 }
