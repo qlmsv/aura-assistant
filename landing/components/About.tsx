@@ -5,8 +5,8 @@ import { motion } from "framer-motion";
 const strengths = [
   "Выстраивание операционных систем с нуля",
   "Долгосрочные партнёрские отношения с клиентами",
-  "Анализ рынка, конкурентов, экономики процессов",
-  "Выявление узких мест и предложения по оптимизации",
+  "Анализ рынка и конкурентов",
+  "Поиск узких мест и оптимизация",
 ];
 
 export function About() {
@@ -30,14 +30,14 @@ export function About() {
 
         <div className="relative grid gap-10 lg:grid-cols-[0.9fr_1.6fr] lg:items-start lg:gap-16">
           <div>
-            <span className="section-eyebrow">Почему я</span>
+            <span className="section-eyebrow">Обо мне</span>
             <div className="mt-5 flex items-center gap-5">
               <div className="grid h-20 w-20 flex-none place-items-center rounded-full bg-accent text-3xl font-bold text-bg shadow-glow">
                 А
               </div>
               <div>
                 <div className="font-display text-2xl font-semibold">Алина</div>
-                <div className="text-sm text-muted">операционист · АУРА</div>
+                <div className="text-sm text-muted">операционист</div>
               </div>
             </div>
 
@@ -74,9 +74,9 @@ export function About() {
             <p className="font-serif text-xl leading-relaxed text-ink/95 sm:text-2xl">
               Последние годы я веду операционку бизнесам и предпринимателям.
               От построения долгосрочных партнёрских отношений с вашими
-              клиентами до анализа рынка и конкурентов, выявления узких мест
-              в бизнесе и решения личных задач предпринимателей — с
-              предложениями по оптимизации.
+              клиентами до анализа рынка и конкурентов, поиска узких мест и
+              решения личных задач предпринимателей — с предложениями по
+              оптимизации.
             </p>
             <p className="mt-5 font-serif text-lg italic leading-relaxed text-muted sm:text-xl">
               Мне важны задачи, которые можно усовершенствовать и довести до

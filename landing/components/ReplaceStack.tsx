@@ -31,20 +31,20 @@ export function ReplaceStack() {
     <section
       ref={ref}
       className="relative overflow-hidden py-section"
-      aria-label="От хаоса к системе"
+      aria-label="От разрозненной работы к одной системе"
     >
       <div className="container-x">
         <div className="max-w-2xl">
-          <span className="section-eyebrow">От хаоса — к системе</span>
+          <span className="section-eyebrow">Как будет после</span>
           <h2 className="section-title">
-            Процессы из десятка мест
+            Работа в одном месте
             <br />
-            <span className="text-gradient">в одну архитектуру.</span>
+            <span className="text-gradient">а не в десяти.</span>
           </h2>
           <p className="mt-4 text-muted">
-            Чаты, таблицы, заметки, CRM, почта, головы сотрудников — типичный
-            «стек» растущего бизнеса. АУРА собирает это в единую систему, где у
-            каждого процесса есть владелец, SLA и метрика.
+            Задачи в чатах, договоры в папках, данные о клиентах в голове у
+            менеджера, отчёты в Excel. Собираю это в одну систему, где у
+            каждого процесса есть ответственный, срок и понятный результат.
           </p>
         </div>
 
@@ -78,7 +78,7 @@ export function ReplaceStack() {
               A
             </div>
             <div className="mt-5 text-center font-display text-sm uppercase tracking-[0.3em] text-accent">
-              Единая система
+              Одна система
             </div>
           </motion.div>
         </div>

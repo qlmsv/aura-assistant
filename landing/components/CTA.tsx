@@ -21,15 +21,15 @@ export function CTA() {
 
         <span className="section-eyebrow mx-auto">Начнём</span>
         <h2 className="mt-5 font-display text-display-lg font-semibold tracking-tight sm:text-display-xl">
-          Верните себе <span className="text-gradient">стратегию.</span>
+          Давайте <span className="text-gradient">созвонимся.</span>
         </h2>
         <p className="mx-auto mt-5 max-w-xl text-lg text-muted">
-          Первый созвон — 30 минут, бесплатно. По итогу вы получите
-          сформулированную гипотезу о том, что в операционке стоит починить в
-          первую очередь.
+          30 минут, бесплатно, без обязательств. После созвона у вас будет
+          понятное представление, что в операционке стоит починить в первую
+          очередь.
         </p>
         <div className="mt-9 flex justify-center">
-          <TelegramButton>Запросить диагностику</TelegramButton>
+          <TelegramButton>Записаться на созвон</TelegramButton>
         </div>
         <p className="mt-5 text-xs uppercase tracking-[0.22em] text-muted">
           Без обязательств · NDA по запросу

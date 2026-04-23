@@ -3,13 +3,13 @@
 import { animate, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
-type Stat = { value: number; suffix: string; label: string; prefix?: string; decimals?: number };
+type Stat = { value: number; suffix: string; label: string; prefix?: string };
 
 const stats: Stat[] = [
-  { value: 99.8, suffix: "%", decimals: 1, label: "Надёжность процессов в продакшне" },
-  { value: 5, prefix: "×", suffix: "", label: "Кратный рост без просадки качества" },
-  { value: 60, suffix: "%", label: "Меньше времени основателя на рутину" },
-  { value: 30, suffix: "дн", label: "От первой встречи до первого результата" },
+  { value: 30, suffix: "мин", label: "Первый созвон — бесплатно" },
+  { value: 2, suffix: "недели", label: "От заявки до первого отчёта" },
+  { value: 1, suffix: "неделя", prefix: "≈", label: "До первых видимых улучшений" },
+  { value: 3, suffix: "мес", label: "Минимальный срок сопровождения" },
 ];
 
 export function StatsBar() {
@@ -39,13 +39,11 @@ function StatItem({ stat }: { stat: Stat }) {
     return () => controls.stop();
   }, [inView, stat.value]);
 
-  const display = stat.decimals ? n.toFixed(stat.decimals) : Math.round(n).toString();
-
   return (
     <div ref={ref} className="relative">
       <div className="font-display text-display-md font-semibold tracking-tight">
-        {stat.prefix ? <span className="text-accent/80">{stat.prefix}</span> : null}
-        <span className="text-gradient">{display}</span>
+        {stat.prefix ? <span className="text-accent/80">{stat.prefix} </span> : null}
+        <span className="text-gradient">{Math.round(n)}</span>
         {stat.suffix && <span className="ml-1 text-muted">{stat.suffix}</span>}
       </div>
       <div className="mt-2 h-px w-12 bg-accent/60" />

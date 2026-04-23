@@ -12,7 +12,7 @@ def main_menu() -> InlineKeyboardMarkup:
         inline_keyboard=[
             [InlineKeyboardButton(text="💎 Форматы и цены", callback_data="services")],
             [InlineKeyboardButton(text="🗂 Что я делаю", callback_data="what")],
-            [InlineKeyboardButton(text="📝 Запросить диагностику", callback_data="apply")],
+            [InlineKeyboardButton(text="📝 Записаться на созвон", callback_data="apply")],
             [InlineKeyboardButton(text="💬 Написать напрямую", callback_data="chat")],
         ]
     )
@@ -23,8 +23,8 @@ def services_menu() -> InlineKeyboardMarkup:
         inline_keyboard=[
             [InlineKeyboardButton(text="🔍 Диагностика — 150 000 ₽", callback_data="pick:start")],
             [InlineKeyboardButton(text="🏛 Проект — от 500 000 ₽", callback_data="pick:business")],
-            [InlineKeyboardButton(text="📈 Ops-директор — 250 000 ₽/мес", callback_data="pick:vip")],
-            [InlineKeyboardButton(text="🚀 Трансформация — по запросу", callback_data="pick:enterprise")],
+            [InlineKeyboardButton(text="🤝 Сопровождение — 250 000 ₽/мес", callback_data="pick:vip")],
+            [InlineKeyboardButton(text="🚀 Под задачу — по запросу", callback_data="pick:enterprise")],
             [InlineKeyboardButton(text="← В меню", callback_data="menu")],
         ]
     )

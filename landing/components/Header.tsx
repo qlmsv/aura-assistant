@@ -13,10 +13,10 @@ export function Header() {
         </Link>
         <nav className="hidden gap-8 text-sm text-muted md:flex">
           <a href="#services" className="transition hover:text-ink">Что делаю</a>
-          <a href="#pricing" className="transition hover:text-ink">Форматы</a>
+          <a href="#pricing" className="transition hover:text-ink">Цены</a>
           <a href="#how" className="transition hover:text-ink">Как начинаем</a>
         </nav>
-        <TelegramButton className="hidden md:inline-flex">Диагностика</TelegramButton>
+        <TelegramButton className="hidden md:inline-flex">Написать</TelegramButton>
       </div>
     </header>
   );
