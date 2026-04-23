@@ -11,7 +11,11 @@ const container = {
 };
 const item = {
   hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const } },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const },
+  },
 };
 
 export function Hero() {
@@ -28,28 +32,32 @@ export function Hero() {
           className="relative z-10"
         >
           <motion.span variants={item} className="eyebrow">
-            Personal · Online · 24/7
+            Operations Architecture · для бизнеса
           </motion.span>
 
           <motion.h1
             variants={item}
             className="mt-6 font-display text-display-xl font-semibold tracking-tight"
           >
-            Ваш личный
+            Превращаю хаос в
             <br />
-            <span className="text-gradient">ассистент онлайн.</span>
+            <span className="text-gradient">масштабируемую систему.</span>
           </motion.h1>
 
-          <motion.p variants={item} className="mt-6 max-w-xl text-lg text-muted sm:text-xl">
-            АУРА — это Алина, ваш удалённый помощник по всем делам, до которых не доходят руки.
-            Переписки, финансы, поиск подрядчиков, поездки — всё в одном Telegram-чате.
+          <motion.p
+            variants={item}
+            className="mt-6 max-w-xl text-lg text-muted sm:text-xl"
+          >
+            Проектирую операционную архитектуру, которая освобождает основателя
+            от микроменеджмента. От логики процессов до 99.8% надёжности при
+            кратных нагрузках.
           </motion.p>
 
           <motion.div
             variants={item}
             className="mt-10 flex flex-col items-start gap-4 sm:flex-row"
           >
-            <TelegramButton>Оставить заявку</TelegramButton>
+            <TelegramButton>Запросить диагностику</TelegramButton>
             <a href="#services" className="btn-ghost">
               Что я делаю
             </a>
@@ -60,9 +68,9 @@ export function Hero() {
             className="mt-12 grid w-full max-w-xl grid-cols-1 gap-3 text-left sm:mt-14 sm:grid-cols-3 sm:gap-6"
           >
             {[
-              { v: "≤ 30 мин", l: "Ответ в рабочие часы" },
-              { v: "День 1", l: "Первая задача на старте" },
-              { v: "NDA", l: "Конфиденциальность" },
+              { v: "99.8%", l: "Надёжность процессов" },
+              { v: "4–5×", l: "Рост без просадки качества" },
+              { v: "0", l: "Микроменеджмента для основателя" },
             ].map((s) => (
               <div
                 key={s.l}
@@ -71,9 +79,7 @@ export function Hero() {
                 <div className="font-display text-xl font-semibold text-accent">
                   {s.v}
                 </div>
-                <div className="text-xs leading-snug text-muted sm:mt-1">
-                  {s.l}
-                </div>
+                <div className="text-xs leading-snug text-muted sm:mt-1">{s.l}</div>
               </div>
             ))}
           </motion.div>

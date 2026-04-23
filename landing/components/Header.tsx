@@ -12,11 +12,11 @@ export function Header() {
           <span className="font-display text-lg font-bold tracking-[0.25em]">АУРА</span>
         </Link>
         <nav className="hidden gap-8 text-sm text-muted md:flex">
-          <a href="#services" className="transition hover:text-ink">Услуги</a>
-          <a href="#pricing" className="transition hover:text-ink">Тарифы</a>
-          <a href="#how" className="transition hover:text-ink">Как это работает</a>
+          <a href="#services" className="transition hover:text-ink">Что делаю</a>
+          <a href="#pricing" className="transition hover:text-ink">Форматы</a>
+          <a href="#how" className="transition hover:text-ink">Как начинаем</a>
         </nav>
-        <TelegramButton className="hidden md:inline-flex">Написать</TelegramButton>
+        <TelegramButton className="hidden md:inline-flex">Диагностика</TelegramButton>
       </div>
     </header>
   );
