@@ -3,10 +3,10 @@
 import { motion } from "framer-motion";
 
 const strengths = [
-  "Выстраивание операционных систем с нуля",
   "Долгосрочные партнёрские отношения с клиентами",
-  "Анализ рынка, конкурентов, экономики процессов",
-  "Выявление узких мест и предложения по оптимизации",
+  "Анализ рынка и конкурентов",
+  "Выявление узких мест и оптимизация",
+  "Личные задачи предпринимателей",
 ];
 
 export function About() {
@@ -37,7 +37,7 @@ export function About() {
               </div>
               <div>
                 <div className="font-display text-2xl font-semibold">Алина</div>
-                <div className="text-sm text-muted">операционист · АУРА</div>
+                <div className="text-sm text-muted">основатель АУРА</div>
               </div>
             </div>
 

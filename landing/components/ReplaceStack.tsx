@@ -3,16 +3,16 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 
-const sources = [
-  "Чаты",
-  "Таблицы",
-  "CRM",
-  "Заметки",
-  "Трекеры",
-  "Документы",
-  "Почта",
-  "Созвоны",
-  "В голове",
+const apps = [
+  "Calendly",
+  "Notion",
+  "Gmail",
+  "Trello",
+  "Booking",
+  "Excel",
+  "WhatsApp",
+  "Dropbox",
+  "Slack",
 ];
 
 export function ReplaceStack() {
@@ -31,20 +31,19 @@ export function ReplaceStack() {
     <section
       ref={ref}
       className="relative overflow-hidden py-section"
-      aria-label="От хаоса к системе"
+      aria-label="Один ассистент вместо девяти приложений"
     >
       <div className="container-x">
         <div className="max-w-2xl">
-          <span className="section-eyebrow">От хаоса — к системе</span>
+          <span className="section-eyebrow">Один вместо девяти</span>
           <h2 className="section-title">
-            Процессы из десятка мест
+            Замените стек приложений
             <br />
-            <span className="text-gradient">в одну архитектуру.</span>
+            <span className="text-gradient">одним сообщением.</span>
           </h2>
           <p className="mt-4 text-muted">
-            Чаты, таблицы, заметки, CRM, почта, головы сотрудников — типичный
-            «стек» растущего бизнеса. АУРА собирает это в единую систему, где у
-            каждого процесса есть владелец, SLA и метрика.
+            Пока вы переключаетесь между календарём, почтой, таблицами и чатами —
+            АУРА держит всё это в одном месте.
           </p>
         </div>
 
@@ -53,15 +52,15 @@ export function ReplaceStack() {
             style={{ scale: tileScale, opacity: tileOpacity }}
             className="absolute inset-0 grid grid-cols-3 gap-5 p-6 sm:gap-7"
           >
-            {sources.map((label, i) => (
+            {apps.map((a, i) => (
               <div
-                key={label}
+                key={a}
                 className="grid place-items-center rounded-2xl border border-white/10 bg-bgSoft/60 px-3 py-6 text-xs font-medium text-muted backdrop-blur sm:text-sm"
                 style={{
-                  transform: `translate(${((i % 3) - 1) * 8}px, ${(Math.floor(i / 3) - 1) * 8}px)`,
+                  transform: `translate(${(i % 3 - 1) * 8}px, ${(Math.floor(i / 3) - 1) * 8}px)`,
                 }}
               >
-                {label}
+                {a}
               </div>
             ))}
           </motion.div>
@@ -78,7 +77,7 @@ export function ReplaceStack() {
               A
             </div>
             <div className="mt-5 text-center font-display text-sm uppercase tracking-[0.3em] text-accent">
-              Единая система
+              АУРА
             </div>
           </motion.div>
         </div>

@@ -5,23 +5,23 @@ import { motion } from "framer-motion";
 const steps = [
   {
     n: "01",
-    title: "Заявка",
-    text: "Короткое сообщение в Telegram: какой размер бизнеса, что болит.",
+    title: "Знакомство",
+    text: "Короткий созвон на 20 минут. Разбор задач и выбор тарифа.",
   },
   {
     n: "02",
-    title: "Диагностический созвон",
-    text: "30 минут, бесплатно. Разбираемся, нужен ли вам операционист и в каком формате.",
+    title: "Подбор формата",
+    text: "Настройка инструментов, доступов и регламента под ваши процессы. Подписание NDA.",
   },
   {
     n: "03",
-    title: "Выбор формата",
-    text: "Подбор формата под запрос и сроки. Подписание NDA и договора.",
+    title: "Старт",
+    text: "Первая задача — в день подписания. Ежедневный отчёт в удобном формате.",
   },
   {
     n: "04",
-    title: "Старт",
-    text: "Первый полезный результат — в конце первой недели работы.",
+    title: "Ведение",
+    text: "Еженедельный разбор: что сделано, что забираем дальше, где можно ускориться.",
   },
 ];
 
@@ -29,8 +29,8 @@ export function HowItWorks() {
   return (
     <section id="how" className="container-x py-section">
       <div className="max-w-2xl">
-        <span className="section-eyebrow">Следующие шаги</span>
-        <h2 className="section-title">Как мы начинаем</h2>
+        <span className="section-eyebrow">Как это работает</span>
+        <h2 className="section-title">Четыре шага до свободного дня</h2>
       </div>
       <div className="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
         {steps.map((s, i) => (

@@ -10,10 +10,10 @@ from aiogram.types import (
 def main_menu() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text="💎 Форматы и цены", callback_data="services")],
-            [InlineKeyboardButton(text="🗂 Что я делаю", callback_data="what")],
-            [InlineKeyboardButton(text="📝 Запросить диагностику", callback_data="apply")],
-            [InlineKeyboardButton(text="💬 Написать напрямую", callback_data="chat")],
+            [InlineKeyboardButton(text="💎 Услуги и цены", callback_data="services")],
+            [InlineKeyboardButton(text="🗂 Что я беру на себя", callback_data="what")],
+            [InlineKeyboardButton(text="📝 Оставить заявку", callback_data="apply")],
+            [InlineKeyboardButton(text="💬 Написать ассистенту", callback_data="chat")],
         ]
     )
 
@@ -21,10 +21,9 @@ def main_menu() -> InlineKeyboardMarkup:
 def services_menu() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text="🔍 Диагностика — 150 000 ₽", callback_data="pick:start")],
-            [InlineKeyboardButton(text="🏛 Проект — от 500 000 ₽", callback_data="pick:business")],
-            [InlineKeyboardButton(text="📈 Ops-директор — 250 000 ₽/мес", callback_data="pick:vip")],
-            [InlineKeyboardButton(text="🚀 Трансформация — по запросу", callback_data="pick:enterprise")],
+            [InlineKeyboardButton(text="Выбрать «Старт» — 30 000 ₽", callback_data="pick:start")],
+            [InlineKeyboardButton(text="Выбрать «Бизнес» — 50 000 ₽", callback_data="pick:business")],
+            [InlineKeyboardButton(text="Выбрать «VIP» — 80 000 ₽", callback_data="pick:vip")],
             [InlineKeyboardButton(text="← В меню", callback_data="menu")],
         ]
     )

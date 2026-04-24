@@ -17,16 +17,6 @@ PACKAGE_MAP = {
     "start": Package.start,
     "business": Package.business,
     "vip": Package.vip,
-    # "Трансформация" is a higher-tier offering than the DB enum knows
-    # about. Record intent as VIP and rely on the display label for UX.
-    "enterprise": Package.vip,
-}
-
-PACKAGE_LABELS = {
-    "start": "Диагностика",
-    "business": "Проект",
-    "vip": "Ops-директор",
-    "enterprise": "Трансформация",
 }
 
 
@@ -76,12 +66,11 @@ async def cb_pick_package(call: CallbackQuery) -> None:
             session, telegram_id=call.from_user.id, name=call.from_user.full_name
         )
         await update_client_profile(session, client, package=package)
-    label = PACKAGE_LABELS.get(key, key)
-    await call.answer(f"Выбран формат «{label}»", show_alert=False)
+    label = {"start": "Старт", "business": "Бизнес", "vip": "VIP"}[key]
+    await call.answer(f"Выбран пакет «{label}»", show_alert=False)
     if call.message:
         await call.message.edit_text(
-            f"✅ Зафиксировала интерес к формату <b>«{label}»</b>.\n\n"
-            "Оставьте короткую заявку на диагностику — я свяжусь с вами в "
-            "течение часа в рабочее время.",
+            f"✅ Зафиксировал интерес к пакету <b>«{label}»</b>.\n\n"
+            "Оставьте короткую заявку — и я свяжусь с вами.",
             reply_markup=back_to_menu(),
         )

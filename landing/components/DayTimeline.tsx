@@ -3,49 +3,30 @@
 import { motion } from "framer-motion";
 
 const moments = [
-  {
-    t: "День 0",
-    text: "Диагностический созвон: 30 минут, бесплатно. Формулируем что именно болит и что считаем успехом.",
-  },
-  {
-    t: "Неделя 1",
-    text: "Интервью с вами и ключевыми людьми команды. Сбор данных о реальном потоке работы.",
-  },
-  {
-    t: "Неделя 2",
-    text: "Карта процессов с узкими местами. Отчёт с приоритизированным планом на 90 дней.",
-  },
-  {
-    t: "Недели 3–6",
-    text: "Проектирование целевой архитектуры: RACI, SLA, регламенты, инструменты, документация.",
-  },
-  {
-    t: "Недели 7–12",
-    text: "Внедрение, автоматизация, миграция, онбординг команды. Переход без остановки бизнеса.",
-  },
-  {
-    t: "Месяц 3+",
-    text: "Сопровождение: мониторинг, ретроспективы, оптимизация на ходу. Передача знаний внутреннему руководителю.",
-  },
+  { t: "08:00", text: "Проверяю почту и мессенджеры, отвечаю на то, что не требует вашего решения." },
+  { t: "10:00", text: "Напоминаю о встрече в 11:30 и присылаю справку по собеседнику." },
+  { t: "12:00", text: "Веду клиентов в чате: отвечаю, довожу до оплаты, собираю документы." },
+  { t: "14:30", text: "Вношу поступления и расходы в таблицу, сверяю с чеками." },
+  { t: "16:00", text: "Созваниваюсь с типографией по мерчу, согласовываю макет и сроки." },
+  { t: "18:00", text: "Готовлю сводку по заявкам и отправляю маркетологу рекомендации." },
+  { t: "21:00", text: "Собираю план на завтра и отправляю вам одним сообщением." },
 ];
 
 export function DayTimeline() {
   return (
     <section className="container-x py-section">
       <div className="max-w-2xl">
-        <span className="section-eyebrow">Как мы работаем</span>
-        <h2 className="section-title">Роадмап от хаоса до системы</h2>
+        <span className="section-eyebrow">Один день с АУРОЙ</span>
+        <h2 className="section-title">Как устроен день</h2>
         <p className="mt-4 text-muted">
-          Реалистичный срок до устойчивых изменений — от 2 до 12 недель
-          в зависимости от объёма. Первый полезный результат — уже в конце
-          первой недели.
+          Короткий срез: что именно происходит, пока вы занимаетесь стратегией, командой и клиентами.
         </p>
       </div>
 
       <div className="relative mt-14">
         <div
           aria-hidden
-          className="absolute left-[calc(4rem-1px)] top-0 h-full w-px bg-gradient-to-b from-accent/60 via-accent/20 to-transparent sm:left-[calc(6rem-1px)]"
+          className="absolute left-[calc(4rem-1px)] top-0 h-full w-px bg-gradient-to-b from-accent/60 via-accent/20 to-transparent sm:left-[calc(5rem-1px)]"
         />
         <ul className="space-y-8">
           {moments.map((m, i) => (
@@ -57,7 +38,7 @@ export function DayTimeline() {
               transition={{ duration: 0.5, delay: i * 0.04, ease: [0.22, 1, 0.36, 1] }}
               className="relative flex items-start gap-6 sm:gap-8"
             >
-              <span className="w-16 flex-none font-display text-sm font-semibold tracking-tight text-accent sm:w-24 sm:text-base">
+              <span className="w-16 flex-none font-display text-lg font-semibold tracking-tight text-accent sm:w-20 sm:text-xl">
                 {m.t}
               </span>
               <span

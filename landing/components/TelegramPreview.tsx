@@ -6,19 +6,15 @@ import { useEffect, useState } from "react";
 type Msg = { from: "user" | "aura"; text: string };
 
 const script: Msg[] = [
-  { from: "user", text: "Процессы держатся на мне. Растёт — теряем качество." },
-  {
-    from: "aura",
-    text: "Сделаю карту операций и покажу где теряете 80% времени. Первый созвон — 30 минут, бесплатно.",
-  },
-  { from: "user", text: "Через сколько можно начать?" },
-  {
-    from: "aura",
-    text: "Диагностика — 2 недели. Первый отчёт с приоритетами — в конце первой недели.",
-  },
+  { from: "user", text: "Перенеси встречу с Андреем на четверг 15:00" },
+  { from: "aura", text: "Согласовала 🕒 четверг, 15:00. Отправлю напоминание за час." },
+  { from: "user", text: "И посчитай расходы за октябрь" },
+  { from: "aura", text: "Собрала таблицу. Итого: ₽ 284 600. Прислала сводку в личку." },
 ];
 
-const STEP_MS = 1600;
+const STEP_MS = 1400;
+const PAUSE_MS = 3200;
+const CYCLE = script.length * STEP_MS + PAUSE_MS;
 
 export function TelegramPreview() {
   const [count, setCount] = useState(0);
@@ -36,9 +32,15 @@ export function TelegramPreview() {
       tick();
       id = setInterval(tick, STEP_MS);
     }, 600);
+
+    const reset = setInterval(() => {
+      // resync once a full cycle to avoid drift
+    }, CYCLE);
+
     return () => {
       clearTimeout(start);
       clearInterval(id);
+      clearInterval(reset);
     };
   }, []);
 
@@ -60,7 +62,7 @@ export function TelegramPreview() {
           <div className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
         </div>
 
-        <div className="flex min-h-[360px] flex-col gap-2 px-4 py-5">
+        <div className="flex min-h-[340px] flex-col gap-2 px-4 py-5">
           <AnimatePresence initial={false}>
             {visible.map((m, idx) => {
               if (!m) return null;
@@ -72,7 +74,7 @@ export function TelegramPreview() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                  className={`max-w-[84%] rounded-2xl px-4 py-2.5 text-sm leading-snug ${
+                  className={`max-w-[82%] rounded-2xl px-4 py-2.5 text-sm leading-snug ${
                     isUser
                       ? "self-end rounded-br-md bg-accent/90 text-bg"
                       : "self-start rounded-bl-md bg-white/5 text-ink"
