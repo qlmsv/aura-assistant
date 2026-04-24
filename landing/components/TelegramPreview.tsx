@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { Avatar } from "./Avatar";
 
 type Msg = { from: "user" | "aura"; text: string };
 
@@ -52,9 +53,7 @@ export function TelegramPreview() {
       <div className="absolute -inset-px rounded-[28px] bg-[linear-gradient(135deg,rgba(224,64,251,0.5),rgba(255,255,255,0.06)_40%,rgba(224,64,251,0.25))] blur-[1px]" />
       <div className="relative overflow-hidden rounded-[26px] border border-white/10 bg-bgSoft/80 shadow-glowSoft backdrop-blur-xl">
         <div className="flex items-center gap-3 border-b border-white/10 px-5 py-4">
-          <div className="grid h-9 w-9 place-items-center rounded-full bg-accent text-sm font-bold text-bg shadow-glow">
-            A
-          </div>
+          <Avatar size={36} glow />
           <div className="flex-1">
             <div className="font-display text-sm font-semibold">АУРА</div>
             <div className="text-[11px] text-muted">в сети · печатает…</div>

@@ -1,14 +1,13 @@
 import Link from "next/link";
+import { Avatar } from "./Avatar";
 import { TelegramButton } from "./TelegramButton";
 
 export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-white/5 bg-bg/70 backdrop-blur">
       <div className="container-x flex h-16 items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
-          <span className="grid h-8 w-8 place-items-center rounded-full bg-accent text-bg shadow-glow">
-            <span className="font-display text-sm font-bold">A</span>
-          </span>
+        <Link href="/" className="flex items-center gap-2.5">
+          <Avatar size={32} glow />
           <span className="font-display text-lg font-bold tracking-[0.25em]">АУРА</span>
         </Link>
         <nav className="hidden gap-8 text-sm text-muted md:flex">

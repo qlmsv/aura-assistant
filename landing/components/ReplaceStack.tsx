@@ -2,6 +2,7 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import { Avatar } from "./Avatar";
 
 const apps = [
   "Calendly",
@@ -73,8 +74,8 @@ export function ReplaceStack() {
               style={{ opacity: auraGlow }}
               className="absolute inset-[-40px] rounded-full bg-[radial-gradient(circle,rgba(224,64,251,0.55),transparent_60%)] blur-2xl"
             />
-            <div className="relative grid h-32 w-32 place-items-center rounded-full border border-accent/40 bg-bg/80 font-display text-4xl font-bold tracking-widest text-ink shadow-glowStrong backdrop-blur">
-              A
+            <div className="relative rounded-full ring-4 ring-accent/40 shadow-glowStrong">
+              <Avatar size={128} priority />
             </div>
             <div className="mt-5 text-center font-display text-sm uppercase tracking-[0.3em] text-accent">
               АУРА
