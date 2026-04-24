@@ -28,6 +28,8 @@ Thumbs.db
 # Source assets (keep originals out of the repo; optimized copies go in landing/public)
 /ChatGPT Image*.png
 /ChatGPT Image*.jpg
+/alina*.png
+/alina*.jpg
 
 # Editor
 .vscode/
