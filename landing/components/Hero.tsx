@@ -32,32 +32,32 @@ export function Hero() {
           className="relative z-10"
         >
           <motion.span variants={item} className="eyebrow">
-            Операционист · для бизнеса
+            Operations Architecture · для бизнеса
           </motion.span>
 
           <motion.h1
             variants={item}
             className="mt-6 font-display text-display-xl font-semibold tracking-tight"
           >
-            Навожу порядок
+            Превращаю хаос в
             <br />
-            <span className="text-gradient">в операционке бизнеса.</span>
+            <span className="text-gradient">масштабируемую систему.</span>
           </motion.h1>
 
           <motion.p
             variants={item}
             className="mt-6 max-w-xl text-lg text-muted sm:text-xl"
           >
-            Разбираюсь, где у вас теряется время и деньги. Описываю процессы,
-            выстраиваю работу команды, настраиваю инструменты — чтобы бизнес
-            рос без вашего постоянного участия.
+            Проектирую операционную архитектуру, которая освобождает основателя
+            от микроменеджмента. От логики процессов до 99.8% надёжности при
+            кратных нагрузках.
           </motion.p>
 
           <motion.div
             variants={item}
             className="mt-10 flex flex-col items-start gap-4 sm:flex-row"
           >
-            <TelegramButton>Записаться на созвон</TelegramButton>
+            <TelegramButton>Запросить диагностику</TelegramButton>
             <a href="#services" className="btn-ghost">
               Что я делаю
             </a>
@@ -68,9 +68,9 @@ export function Hero() {
             className="mt-12 grid w-full max-w-xl grid-cols-1 gap-3 text-left sm:mt-14 sm:grid-cols-3 sm:gap-6"
           >
             {[
-              { v: "30 мин", l: "Первый созвон — бесплатно" },
-              { v: "2 недели", l: "Срок диагностики" },
-              { v: "NDA", l: "По вашему запросу" },
+              { v: "99.8%", l: "Надёжность процессов" },
+              { v: "4–5×", l: "Рост без просадки качества" },
+              { v: "0", l: "Микроменеджмента для основателя" },
             ].map((s) => (
               <div
                 key={s.l}

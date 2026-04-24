@@ -6,22 +6,22 @@ const steps = [
   {
     n: "01",
     title: "Заявка",
-    text: "Напишите в Telegram: коротко о бизнесе и что болит.",
+    text: "Короткое сообщение в Telegram: какой размер бизнеса, что болит.",
   },
   {
     n: "02",
-    title: "Созвон",
-    text: "30 минут, бесплатно. Поймём, нужна ли моя помощь и в каком формате.",
+    title: "Диагностический созвон",
+    text: "30 минут, бесплатно. Разбираемся, нужен ли вам операционист и в каком формате.",
   },
   {
     n: "03",
-    title: "Договариваемся",
-    text: "Выбираем формат, подписываем договор и NDA. Согласовываем старт.",
+    title: "Выбор формата",
+    text: "Подбор формата под запрос и сроки. Подписание NDA и договора.",
   },
   {
     n: "04",
-    title: "Начинаем",
-    text: "Первый полезный результат — к концу первой недели работы.",
+    title: "Старт",
+    text: "Первый полезный результат — в конце первой недели работы.",
   },
 ];
 
@@ -29,8 +29,8 @@ export function HowItWorks() {
   return (
     <section id="how" className="container-x py-section">
       <div className="max-w-2xl">
-        <span className="section-eyebrow">Как начинаем</span>
-        <h2 className="section-title">Четыре шага до первого результата</h2>
+        <span className="section-eyebrow">Следующие шаги</span>
+        <h2 className="section-title">Как мы начинаем</h2>
       </div>
       <div className="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
         {steps.map((s, i) => (

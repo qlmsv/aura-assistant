@@ -25,8 +25,8 @@ PACKAGE_MAP = {
 PACKAGE_LABELS = {
     "start": "Диагностика",
     "business": "Проект",
-    "vip": "Сопровождение",
-    "enterprise": "Под задачу",
+    "vip": "Ops-директор",
+    "enterprise": "Трансформация",
 }
 
 
